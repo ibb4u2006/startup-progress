@@ -1,11 +1,14 @@
-import { AllHTMLAttributes } from 'react';
+import { AllHTMLAttributes, LegacyRef, forwardRef } from 'react';
 
 interface TextFieldProps extends AllHTMLAttributes<HTMLInputElement> {}
 
-const TextField: React.FC<TextFieldProps> = ({ ...props }) => {
+const TextField = forwardRef(function TextField(
+  { ...props }: TextFieldProps,
+  ref: LegacyRef<HTMLInputElement>
+) {
   const { id, className, type = 'text', label } = props;
   return (
-    <div className="relative">
+    <div className="relative max-w-xs w-full">
       <label
         htmlFor={id}
         className="block mb-2 text-sm font-medium text-gray-900 "
@@ -13,6 +16,7 @@ const TextField: React.FC<TextFieldProps> = ({ ...props }) => {
         {label}
       </label>
       <input
+        ref={ref}
         {...props}
         type={type}
         id={id}
@@ -20,6 +24,6 @@ const TextField: React.FC<TextFieldProps> = ({ ...props }) => {
       />
     </div>
   );
-};
+});
 
 export default TextField;

@@ -9,9 +9,7 @@ type LayoutProps = {
 
 const Layout: React.FC<LayoutProps> = ({ children }) => {
   return (
-    <main
-      className={`flex min-h-screen flex-col items-center justify-between p-24 ${inter.className}`}
-    >
+    <main className={`min-h-screen p-10 p-lg-24 ${inter.className}`}>
       <Header />
       {children}
     </main>
