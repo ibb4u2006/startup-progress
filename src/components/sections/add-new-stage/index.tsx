@@ -4,6 +4,7 @@ import { ChangeEvent, useCallback, useEffect, useState } from 'react';
 import PhaseForm from './PhaseForm';
 import TaskForm from './TaskForm';
 import { swithObjectValues } from '@/utils/data';
+import Container from '@/components/common/Container';
 
 enum AddStage {
   phase = 'phase',
@@ -37,22 +38,22 @@ const AddNewStage = () => {
   });
 
   return (
-    <div className="py-20">
-      <h2 className="my-5 text-heading-2">Create Stage Form</h2>
+    <Container className="py-5">
+      <h2 className="my-5 text-heading-2 font-bold">Progress form</h2>
       <Stack
         direction="horizontal"
         className="gap-5 items-lg-end flex-grow flex-wrap"
       >
         <SelectField
           label="Select stage"
-          placeholder="Please select a stage to add"
+          placeholder="Select stage option"
           defaultValue={stage}
           options={stageoptions}
           onChange={handleStageChange}
         />
         {showForm}
       </Stack>
-    </div>
+    </Container>
   );
 };
 

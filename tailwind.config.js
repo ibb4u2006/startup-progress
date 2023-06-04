@@ -16,6 +16,9 @@ module.exports = {
         'heading-1': ['28px', '32px'],
         'heading-2': ['24px', '26px'],
       },
+      maxWidth: {
+        220: '220px',
+      },
     },
   },
   plugins: [],

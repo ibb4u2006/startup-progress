@@ -3,7 +3,7 @@ import Stack from '../common/Stack';
 
 const Header = () => {
   return (
-    <Container>
+    <Container className="py-5">
       <Stack
         direction="horizontal"
         className="justify-between items-center flex-wrap gap-6"
