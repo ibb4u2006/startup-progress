@@ -23,6 +23,7 @@ const TaskForm = () => {
 
   const {
     register,
+    reset,
     handleSubmit,
     formState: { errors },
   } = useForm<z.infer<typeof formSchema>>({
@@ -36,6 +37,7 @@ const TaskForm = () => {
   function onSubmit(values: z.infer<typeof formSchema>) {
     const { phase, task } = values;
     dispatch({ type: 'ADD_TASK', payload: { order: phase, title: task } });
+    reset();
   }
 
   const isFormError = !!errors.task?.message || !!errors.phase?.message;

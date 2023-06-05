@@ -13,8 +13,8 @@ const Loader: FC<ILoader> = ({ isLoading, children, ...props }) => {
         className="h-40 w-40 items-center justify-center top-1/2 left-1/2 absolute -translate-x-1/2 -translate-y-1/2"
         {...props}
       >
-        <Stack className="h-16 w-16 animate-spin items-center justify-center rounded-full bg-gradient-to-r from-white to-gray-500">
-          <div className="h-14 w-14 rounded-full bg-black"></div>
+        <Stack className="h-16 w-16 animate-spin items-center justify-center rounded-full bg-gradient-to-r from-black to-blue-500">
+          <div className="h-14 w-14 rounded-full bg-white"></div>
         </Stack>
       </Stack>
     );

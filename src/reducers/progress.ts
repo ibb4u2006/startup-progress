@@ -78,6 +78,8 @@ export const progressReducer = (
         isCompleted: false,
       });
       return newUndoState;
+    case 'GET_STORED_PROGRESS':
+      return [...action.payload];
     default:
       return state;
   }

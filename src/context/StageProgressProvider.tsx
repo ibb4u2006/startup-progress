@@ -1,6 +1,7 @@
 import { ProgessAction, ProgressState } from '@/domain/progress';
 import { progressReducer } from '@/reducers/progress';
-import { Dispatch, createContext, useMemo, useReducer } from 'react';
+import { storeProgress } from '@/utils/storage';
+import { Dispatch, createContext, useEffect, useMemo, useReducer } from 'react';
 
 export const initialProgressState = [] as ProgressState;
 
@@ -19,6 +20,10 @@ const StageProgressProvider: React.FC<StageProgressProviderProps> = ({
   const [state, dispatch] = useReducer(progressReducer, initialProgressState);
 
   const contextValue = useMemo(() => ({ state, dispatch }), [state]);
+
+  useEffect(() => {
+    storeProgress(state);
+  }, [state]);
 
   return (
     <ProgressContext.Provider value={contextValue}>

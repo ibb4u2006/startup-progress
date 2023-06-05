@@ -3,7 +3,7 @@ import TextField from '@/components/form/TextField';
 import { ProgressContext } from '@/context/StageProgressProvider';
 import { zodResolver } from '@hookform/resolvers/zod';
 import classNames from 'classnames';
-import { useContext, useEffect } from 'react';
+import { useContext } from 'react';
 import { useForm } from 'react-hook-form';
 import * as z from 'zod';
 
@@ -17,6 +17,7 @@ const PhaseForm = () => {
   const { dispatch } = useContext(ProgressContext);
   const {
     register,
+    reset,
     handleSubmit,
     formState: { errors },
   } = useForm<z.infer<typeof formSchema>>({
@@ -28,6 +29,7 @@ const PhaseForm = () => {
 
   function onSubmit(values: z.infer<typeof formSchema>) {
     dispatch({ type: 'ADD_PHASE', payload: values.phase });
+    reset();
   }
 
   return (

@@ -1,12 +1,36 @@
 import Container from '@/components/common/Container';
 import PhaseItem from './PhaseItem';
-import { useContext } from 'react';
+import { useContext, useEffect, useMemo, useState } from 'react';
 import { ProgressContext } from '@/context/StageProgressProvider';
 import { slugify } from '@/utils/string';
+import Stack from '@/components/common/Stack';
+import Button from '@/components/buttons/Button';
+import { clearProgress, getProgress } from '@/utils/storage';
+import Loader from '@/components/common/Loader';
 
 const StageProgress = () => {
-  const { state: phases } = useContext(ProgressContext);
-  if (!phases || phases.length < 1) {
+  const [isLoading, setIsLoading] = useState(true);
+  const { state: phases, dispatch } = useContext(ProgressContext);
+
+  const isEmptyPhases = !phases || phases.length < 1;
+
+  const storedProgress = useMemo(() => {
+    return getProgress();
+  }, []);
+
+  const handleResetProgress = () => {
+    clearProgress();
+    dispatch({ type: 'GET_STORED_PROGRESS', payload: storedProgress });
+  };
+
+  useEffect(() => {
+    if (storedProgress) {
+      dispatch({ type: 'GET_STORED_PROGRESS', payload: storedProgress });
+    }
+    setIsLoading(false);
+  }, [storedProgress]);
+
+  if (isEmptyPhases) {
     return (
       <Container className="py-5">
         <h2 className="my-5 text-heading-2 font-bold">
@@ -22,25 +46,32 @@ const StageProgress = () => {
     );
   }
   return (
-    <Container className="py-5">
-      <h2 className="my-5 text-heading-2 font-bold">My startup progress</h2>
-      <ul className="flex flex-col gap-10">
-        {phases.map((phase) => {
-          const id = slugify(`${phase.order} ${phase.title}`);
-          return (
-            <li key={id}>
-              <PhaseItem
-                isCompleted={phase.isCompleted}
-                isLocked={phase.isLocked}
-                order={phase.order}
-                title={phase.title}
-                tasks={phase.tasks ?? []}
-              />
-            </li>
-          );
-        })}
-      </ul>
-    </Container>
+    <Loader isLoading={isLoading}>
+      <Container className="py-5">
+        <Stack direction="horizontal" className="gap-10 items-center">
+          <h2 className="my-5 text-heading-2 font-bold">My startup progress</h2>
+          {!isEmptyPhases && (
+            <Button onClick={handleResetProgress}>Reset progress</Button>
+          )}
+        </Stack>
+        <ul className="flex flex-col gap-10">
+          {phases.map((phase) => {
+            const id = slugify(`${phase.order} ${phase.title}`);
+            return (
+              <li key={id}>
+                <PhaseItem
+                  isCompleted={phase.isCompleted}
+                  isLocked={phase.isLocked}
+                  order={phase.order}
+                  title={phase.title}
+                  tasks={phase.tasks ?? []}
+                />
+              </li>
+            );
+          })}
+        </ul>
+      </Container>
+    </Loader>
   );
 };
 
