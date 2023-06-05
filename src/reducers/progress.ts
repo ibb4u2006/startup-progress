@@ -1,4 +1,4 @@
-import { ProgessAction, ProgressState } from '@/domain/progress';
+import { ProgessAction, ProgressState } from '@/types/progress';
 
 export const progressReducer = (
   state: ProgressState,

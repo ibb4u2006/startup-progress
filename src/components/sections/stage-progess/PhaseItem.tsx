@@ -77,7 +77,7 @@ const PhaseItem: React.FC<PhaseItemProps> = ({
 
   return (
     <Stack className="gap-5">
-      <Stack direction="horizontal" className="items-center gap-6">
+      <Stack direction="horizontal" className="items-center gap-x-6 flex-wrap">
         <Stack className="w-12 h-12 justify-center items-center bg-black text-white text-xl rounded-full">
           {order + 1}
         </Stack>

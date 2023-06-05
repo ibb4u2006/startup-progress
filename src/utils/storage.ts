@@ -1,5 +1,5 @@
 import { STORAGE_KEY } from '@/constants/keys';
-import { ProgressState } from '@/domain/progress';
+import { ProgressState } from '@/types/progress';
 
 export const storeProgress = (state: ProgressState) => {
   localStorage.setItem(STORAGE_KEY, JSON.stringify(state));

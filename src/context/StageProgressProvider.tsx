@@ -1,4 +1,4 @@
-import { ProgessAction, ProgressState } from '@/domain/progress';
+import { ProgessAction, ProgressState } from '@/types/progress';
 import { progressReducer } from '@/reducers/progress';
 import { storeProgress } from '@/utils/storage';
 import { Dispatch, createContext, useEffect, useMemo, useReducer } from 'react';

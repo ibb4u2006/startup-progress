@@ -1,7 +1,10 @@
 import Container from '@/components/common/Container';
 import PhaseItem from './PhaseItem';
 import { useContext, useEffect, useMemo, useState } from 'react';
-import { ProgressContext } from '@/context/StageProgressProvider';
+import {
+  ProgressContext,
+  initialProgressState,
+} from '@/context/StageProgressProvider';
 import { slugify } from '@/utils/string';
 import Stack from '@/components/common/Stack';
 import Button from '@/components/buttons/Button';
@@ -20,7 +23,7 @@ const StageProgress = () => {
 
   const handleResetProgress = () => {
     clearProgress();
-    dispatch({ type: 'GET_STORED_PROGRESS', payload: storedProgress });
+    dispatch({ type: 'GET_STORED_PROGRESS', payload: initialProgressState });
   };
 
   useEffect(() => {
@@ -40,7 +43,7 @@ const StageProgress = () => {
           Please, use the above form to add phases and tasks.
         </p>
         <p className="text-sm text-red-500">
-          Note: To add tasks, it is required to have atleast one phase.
+          Note: To add tasks, it is required to have atleast one unlocked phase.
         </p>
       </Container>
     );
@@ -48,7 +51,10 @@ const StageProgress = () => {
   return (
     <Loader isLoading={isLoading}>
       <Container className="py-5">
-        <Stack direction="horizontal" className="gap-10 items-center">
+        <Stack
+          direction="horizontal"
+          className="items-center lg:gap-10 flex-wrap mb-10 lg:mb-5"
+        >
           <h2 className="my-5 text-heading-2 font-bold">My startup progress</h2>
           {!isEmptyPhases && (
             <Button onClick={handleResetProgress}>Reset progress</Button>

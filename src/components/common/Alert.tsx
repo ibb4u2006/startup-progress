@@ -1,5 +1,6 @@
 import classNames from 'classnames';
 import Stack from './Stack';
+import Container from './Container';
 
 type AlertProps = {
   variant: 'success' | 'error';
@@ -8,15 +9,21 @@ type AlertProps = {
 
 const Alert: React.FC<AlertProps> = ({ variant = 'error', children }) => {
   const isSuccess = variant === 'success';
+  const isError = variant === 'error';
   return (
-    <Stack
-      direction="horizontal"
-      className={classNames(`bg-red-400 p-5 rounded-md text-black`, {
-        'bg-green-500': isSuccess,
-      })}
-    >
-      {children}
-    </Stack>
+    <Container>
+      <p
+        className={classNames(
+          'p-5 font-medium rounded-md text-black w-fit',
+          {
+            'bg-green-400': isSuccess,
+          },
+          { 'bg-red-400': isError }
+        )}
+      >
+        {children}
+      </p>
+    </Container>
   );
 };
 

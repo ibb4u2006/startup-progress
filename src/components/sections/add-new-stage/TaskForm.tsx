@@ -43,11 +43,13 @@ const TaskForm = () => {
   const isFormError = !!errors.task?.message || !!errors.phase?.message;
 
   const phaseOptions = useMemo(() => {
-    return [...state].map((option) => {
-      const { order, title } = option;
-      const id = slugify(`${order} ${title}`);
-      return { id, label: title, value: order.toString() };
-    });
+    return [...state]
+      .filter((option) => !option.isCompleted)
+      .map((option) => {
+        const { order, title } = option;
+        const id = slugify(`${order} ${title}`);
+        return { id, label: title, value: order.toString() };
+      });
   }, [state]);
 
   return (
