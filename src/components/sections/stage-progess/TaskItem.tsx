@@ -1,6 +1,5 @@
 import Stack from '@/components/common/Stack';
 import Checkbox from '@/components/form/Checkbox';
-import { CheckIcon } from '@heroicons/react/24/solid';
 import { ChangeEvent } from 'react';
 
 type TaskItemProps = {
@@ -23,7 +22,7 @@ const TaskItem: React.FC<TaskItemProps> = ({
       <Checkbox
         label={title}
         id={id}
-        defaultChecked={isDone}
+        checked={isDone}
         onChange={onCheckAction}
         disabled={isDisabled}
       />

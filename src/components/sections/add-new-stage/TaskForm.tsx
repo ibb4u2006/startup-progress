@@ -2,6 +2,7 @@ import Button from '@/components/buttons/Button';
 import SelectField from '@/components/form/SelectField';
 import TextField from '@/components/form/TextField';
 import { ProgressContext } from '@/context/StageProgressProvider';
+import { slugify } from '@/utils/string';
 import { zodResolver } from '@hookform/resolvers/zod';
 import classNames from 'classnames';
 import { useContext, useMemo } from 'react';
@@ -33,14 +34,17 @@ const TaskForm = () => {
   });
 
   function onSubmit(values: z.infer<typeof formSchema>) {
-    console.log({ state, values });
+    const { phase, task } = values;
+    dispatch({ type: 'ADD_TASK', payload: { order: phase, title: task } });
   }
 
   const isFormError = !!errors.task?.message || !!errors.phase?.message;
 
   const phaseOptions = useMemo(() => {
     return [...state].map((option) => {
-      return { id: option.title, label: option.title, value: option.title };
+      const { order, title } = option;
+      const id = slugify(`${order} ${title}`);
+      return { id, label: title, value: order.toString() };
     });
   }, [state]);
 

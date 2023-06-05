@@ -8,9 +8,7 @@ const Header = () => {
         direction="horizontal"
         className="justify-between items-center flex-wrap gap-6"
       >
-        <h1 className="flex text-heading-1 justify-center border-b border-gray-300 w-auto  rounded-xl border bg-gray-100 p-4">
-          Startup Progress App
-        </h1>
+        <h1 className="text-heading-1">Startup Progress App</h1>
         <p>By Ibrahim Bello</p>
       </Stack>
     </Container>
