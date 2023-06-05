@@ -34,7 +34,7 @@ const StageProgress = () => {
                 isLocked={phase.isLocked}
                 order={phase.order}
                 title={phase.title}
-                tasks={phase.tasks}
+                tasks={phase.tasks ?? []}
               />
             </li>
           );

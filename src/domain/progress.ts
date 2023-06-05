@@ -8,7 +8,8 @@ export type ProgessAction =
   | { type: 'COMPLETE_PHASE'; payload: number }
   | { type: 'LOCK_PHASE'; payload: number }
   | { type: 'UNLOCK_PHASE'; payload: number }
-  | { type: 'UNDO_PHASE'; payload: number };
+  | { type: 'UNDO_PHASE'; payload: number }
+  | { type: 'UNDO_TASK'; payload: { order: string; index: number } };
 
 export type ProgressState = {
   order: number;

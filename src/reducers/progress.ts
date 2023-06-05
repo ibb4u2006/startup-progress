@@ -12,7 +12,7 @@ export const progressReducer = (
           title: action.payload,
           isCompleted: false,
           isLocked: false,
-          order: state.length + 1,
+          order: state.length,
           tasks: [],
         },
       ];
@@ -68,6 +68,16 @@ export const progressReducer = (
         })),
       });
       return undoPhaseState;
+    case 'UNDO_TASK':
+      const { index: undoTaskIndex, order: undoTaskOrder } = action.payload;
+      const newUndoState = [...state];
+      const undoOrderNumber = parseFloat(undoTaskOrder);
+      const undoStateElement = newUndoState[undoOrderNumber];
+      newUndoState[undoOrderNumber].tasks.splice(undoTaskIndex, 1, {
+        title: undoStateElement.tasks[undoTaskIndex].title,
+        isCompleted: false,
+      });
+      return newUndoState;
     default:
       return state;
   }

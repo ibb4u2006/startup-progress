@@ -25,9 +25,8 @@ const PhaseItem: React.FC<PhaseItemProps> = ({
   tasks,
 }) => {
   const { state, dispatch } = useContext(ProgressContext);
-  const handleCompleteTask = (order: string, index: number) => {
-    dispatch({ type: 'COMPLETE_TASK', payload: { order, index } });
-  };
+
+  const isTasks = tasks.length > 0;
 
   const phasesState = useMemo(() => {
     return {
@@ -39,28 +38,42 @@ const PhaseItem: React.FC<PhaseItemProps> = ({
   const { completed: completedPhases, uncompleted: unCompletedPhases } =
     phasesState;
 
-  const isCompletedPhase = useMemo(() => {
-    return [...tasks].every((task) => task.isCompleted);
-  }, [state]);
+  const handleCompleteTask = (
+    order: string,
+    index: number,
+    isTaskDone: boolean
+  ) => {
+    dispatch(
+      isTaskDone
+        ? { type: 'UNDO_TASK', payload: { order, index } }
+        : { type: 'COMPLETE_TASK', payload: { order, index } }
+    );
+  };
+
+  const isCompletedPhase = isTasks
+    ? [...tasks].every((task) => task.isCompleted)
+    : false;
 
   const handleUnlockPhase = () => {
     dispatch({ type: 'UNDO_PHASE', payload: order });
   };
 
   useEffect(() => {
-    if (isCompletedPhase) {
+    if (isTasks && isCompletedPhase) {
       dispatch({ type: 'COMPLETE_PHASE', payload: order });
       dispatch({ type: 'LOCK_PHASE', payload: order });
     }
-  }, [isCompletedPhase, order]);
+  }, [isCompletedPhase, order, isTasks]);
 
   useEffect(() => {
-    if (order > unCompletedPhases[0]?.order) {
-      dispatch({ type: 'LOCK_PHASE', payload: order });
-    } else {
-      dispatch({ type: 'UNLOCK_PHASE', payload: order });
+    if (isTasks) {
+      if (order > unCompletedPhases[0]?.order) {
+        dispatch({ type: 'LOCK_PHASE', payload: order });
+      } else {
+        dispatch({ type: 'UNLOCK_PHASE', payload: order });
+      }
     }
-  }, [order, unCompletedPhases[0]?.order]);
+  }, [order, unCompletedPhases[0]?.order, isTasks]);
 
   return (
     <Stack className="gap-5">
@@ -77,7 +90,7 @@ const PhaseItem: React.FC<PhaseItemProps> = ({
       </Stack>
       <ul className="flex flex-col gap-5">
         {tasks.map((task, index) => {
-          const id = slugify(`${index} ${title} ${task.title}`);
+          const id = slugify(`${order} ${index} ${title} ${task.title}`);
           return (
             <li key={id}>
               <TaskItem
@@ -86,7 +99,7 @@ const PhaseItem: React.FC<PhaseItemProps> = ({
                 isDone={task.isCompleted}
                 isDisabled={isCompleted || isLocked}
                 onCheckAction={() =>
-                  handleCompleteTask(order.toString(), index)
+                  handleCompleteTask(order.toString(), index, task.isCompleted)
                 }
               />
             </li>
